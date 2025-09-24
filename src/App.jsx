@@ -1,6 +1,5 @@
-import './background.css';
 import './Rectangle.css';
-import landingImg from './assets/landing.png';
+import landingImg from './assets/outline_landing.png';
 
 function App() {
   return (
