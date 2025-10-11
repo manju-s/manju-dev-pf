@@ -1,20 +1,25 @@
-import './Rectangle.css';
-import landingImg from './assets/outline_landing.png';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import InProgress from './components/InProgress';
+import New from './components/New';
+import PortfolioLandingPage from './components/PortfolioLandingPage';
+import { MantineProvider, createTheme } from '@mantine/core';
+import '@mantine/core/styles.css';
+
+const theme = createTheme({
+  fontFamily: 'Verdana, sans-serif',
+});
 
 function App() {
   return (
-    <div className="centered-rectangle">
-      <img
-        src={landingImg}
-        alt="Landing"
-        style={{
-          maxWidth: '100%',
-          maxHeight: '100%',
-          display: 'block',
-          margin: 'auto',
-        }}
-      />
-    </div>
+    <MantineProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<New />} />
+          <Route path="/dev" element={<PortfolioLandingPage />} />
+          <Route path="/new" element={<InProgress />} /> 
+        </Routes>
+      </BrowserRouter>
+    </MantineProvider>
   )
 }
 
