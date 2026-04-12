@@ -15,6 +15,7 @@ const New = () => {
     const aboutMeRef = useRef(null);
     const workExperienceRef = useRef(null);
     const contactRef = useRef(null);
+    const homeRef = useRef(null);
 
     const handleScroll = (ref) => {
         if (ref.current) {
@@ -56,9 +57,7 @@ const New = () => {
             <div className='main-div'>
                 <div className="nav-container">
                     <button
-                        onClick={() => {
-                            console.log('Logo clicked');
-                        }}
+                        onClick={() => handleScroll(homeRef)}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                     >
                         <img src={myLogo} alt="My Logo" className='my-logo' />
@@ -72,7 +71,7 @@ const New = () => {
                         <IconBrandGithub stroke={2} />
                     </button> */}
                 </div>
-                <div className="child-div">
+                <div ref={homeRef} className="child-div">
                     <div className={`image-text-overlay-container ${startPageLoadAnimation ? 'image-slide-in' : ''}`}>
                         <img src={myPhoto} alt="My Photo" className='my-photo' />
                         <div className="overlay-text">
@@ -139,50 +138,6 @@ const New = () => {
                         </Button>
                         <span>Connect with me on LinkedIn</span>
                     </div>
-                    <form style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <input
-                                type="text"
-                                placeholder="Your Name"
-                                style={{
-                                    padding: '12px',
-                                    borderRadius: '4px',
-                                    border: '1px solid #ccc',
-                                    fontSize: '16px'
-                                }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <input
-                                type="email"
-                                placeholder="Your Email"
-                                style={{
-                                    padding: '12px',
-                                    borderRadius: '4px',
-                                    border: '1px solid #ccc',
-                                    fontSize: '16px'
-                                }}
-                            />
-                        </div>
-                        <Button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                console.log('Form submitted');
-                            }}
-                            style={{
-                                marginTop: '10px',
-                                backgroundColor: '#2d2d2d',
-                                color: 'white',
-                                padding: '12px 24px',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                width: 'fit-content'
-                            }}
-                        >
-                            Send Message
-                        </Button>
-                    </form>
                 </div>
 
                 <div className='theme-toggle-container'>
