@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './New.css';
-import myPhoto from '../assets/new.png';
+import myPhoto from '../assets/my-photo.png';
 import myLogo from '../assets/logo-dark.png';
 import oracleLogo from '../assets/oracle-logo-small.png';
 import { IconSun, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
