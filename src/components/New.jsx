@@ -6,15 +6,42 @@ import oracleLogo from '../assets/oracle-logo-small.png';
 import { IconSun, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
 import { Button } from '@mantine/core';
 import { Tabs } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const New = () => {
     const [greeting, setGreeting] = useState('Hey There!');
     const [animation, setAnimation] = useState('fade-in');
     const [startPageLoadAnimation, setStartPageLoadAnimation] = useState(false);
+    const stackWorkExperienceTabs = useMediaQuery('(max-width: 850px)');
+    const workExperienceListStyle = stackWorkExperienceTabs
+        ? {
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            gap: '12px',
+            maxWidth: '520px',
+            margin: '0 auto',
+        }
+        : {
+            alignItems: 'stretch',
+            gap: '16px',
+        };
+    const workExperienceTabStyle = stackWorkExperienceTabs
+        ? {
+            width: '100%',
+            whiteSpace: 'normal',
+            lineHeight: 1.4,
+            padding: '12px 16px',
+        }
+        : {
+            whiteSpace: 'normal',
+            lineHeight: 1.4,
+            minHeight: '96px',
+        };
 
     const aboutMeRef = useRef(null);
     const workExperienceRef = useRef(null);
     const contactRef = useRef(null);
+    const homeRef = useRef(null);
 
     const handleScroll = (ref) => {
         if (ref.current) {
@@ -56,9 +83,7 @@ const New = () => {
             <div className='main-div'>
                 <div className="nav-container">
                     <button
-                        onClick={() => {
-                            console.log('Logo clicked');
-                        }}
+                        onClick={() => handleScroll(homeRef)}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                     >
                         <img src={myLogo} alt="My Logo" className='my-logo' />
@@ -72,7 +97,7 @@ const New = () => {
                         <IconBrandGithub stroke={2} />
                     </button> */}
                 </div>
-                <div className="child-div">
+                <div ref={homeRef} className="child-div">
                     <div className={`image-text-overlay-container ${startPageLoadAnimation ? 'image-slide-in' : ''}`}>
                         <img src={myPhoto} alt="My Photo" className='my-photo' />
                         <div className="overlay-text">
@@ -80,6 +105,7 @@ const New = () => {
                                 <span className={animation}>{greeting}</span>
                             </div>
                             <div className={startPageLoadAnimation ? 'line-2-slide-in' : ''}>I'm Manjunath.</div>
+                            <div className={startPageLoadAnimation ? 'line-3-slide-in' : ''}>Your friendly neighbourhood developer</div>
                         </div>
                     </div>
                 </div>
@@ -96,19 +122,24 @@ const New = () => {
                 </div>
                 <div ref={workExperienceRef} className="section">
                     <h2>Work Experience</h2>
-                    <Tabs defaultValue="mts">
-                        <Tabs.List>
-                            <Tabs.Tab value="mts">
+                    <Tabs defaultValue="mts" className="work-experience-tabs" style={{ width: 'min(100%, 900px)' }}>
+                        <Tabs.List
+                            className="work-experience-tabs-list"
+                            grow={!stackWorkExperienceTabs}
+                            justify="center"
+                            style={workExperienceListStyle}
+                        >
+                            <Tabs.Tab value="mts" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Member of Technical Staff(Current)
                             </Tabs.Tab>
-                            <IconCircleChevronLeft stroke={2} />
-                            <Tabs.Tab value="se">
+                            {!stackWorkExperienceTabs && <IconCircleChevronLeft stroke={2} className="work-experience-divider" />}
+                            <Tabs.Tab value="se" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Software Engineer
                             </Tabs.Tab>
-                            <IconCircleChevronLeft stroke={2} />
-                            <Tabs.Tab value="intern">
+                            {!stackWorkExperienceTabs && <IconCircleChevronLeft stroke={2} className="work-experience-divider" />}
+                            <Tabs.Tab value="intern" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Software Development Intern
                             </Tabs.Tab>
@@ -139,50 +170,6 @@ const New = () => {
                         </Button>
                         <span>Connect with me on LinkedIn</span>
                     </div>
-                    <form style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <input
-                                type="text"
-                                placeholder="Your Name"
-                                style={{
-                                    padding: '12px',
-                                    borderRadius: '4px',
-                                    border: '1px solid #ccc',
-                                    fontSize: '16px'
-                                }}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <input
-                                type="email"
-                                placeholder="Your Email"
-                                style={{
-                                    padding: '12px',
-                                    borderRadius: '4px',
-                                    border: '1px solid #ccc',
-                                    fontSize: '16px'
-                                }}
-                            />
-                        </div>
-                        <Button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                console.log('Form submitted');
-                            }}
-                            style={{
-                                marginTop: '10px',
-                                backgroundColor: '#2d2d2d',
-                                color: 'white',
-                                padding: '12px 24px',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                width: 'fit-content'
-                            }}
-                        >
-                            Send Message
-                        </Button>
-                    </form>
                 </div>
 
                 <div className='theme-toggle-container'>
