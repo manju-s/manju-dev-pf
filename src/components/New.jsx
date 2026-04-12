@@ -6,11 +6,37 @@ import oracleLogo from '../assets/oracle-logo-small.png';
 import { IconSun, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
 import { Button } from '@mantine/core';
 import { Tabs } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const New = () => {
     const [greeting, setGreeting] = useState('Hey There!');
     const [animation, setAnimation] = useState('fade-in');
     const [startPageLoadAnimation, setStartPageLoadAnimation] = useState(false);
+    const stackWorkExperienceTabs = useMediaQuery('(max-width: 850px)');
+    const workExperienceListStyle = stackWorkExperienceTabs
+        ? {
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            gap: '12px',
+            maxWidth: '520px',
+            margin: '0 auto',
+        }
+        : {
+            alignItems: 'stretch',
+            gap: '16px',
+        };
+    const workExperienceTabStyle = stackWorkExperienceTabs
+        ? {
+            width: '100%',
+            whiteSpace: 'normal',
+            lineHeight: 1.4,
+            padding: '12px 16px',
+        }
+        : {
+            whiteSpace: 'normal',
+            lineHeight: 1.4,
+            minHeight: '96px',
+        };
 
     const aboutMeRef = useRef(null);
     const workExperienceRef = useRef(null);
@@ -79,6 +105,7 @@ const New = () => {
                                 <span className={animation}>{greeting}</span>
                             </div>
                             <div className={startPageLoadAnimation ? 'line-2-slide-in' : ''}>I'm Manjunath.</div>
+                            <div className={startPageLoadAnimation ? 'line-3-slide-in' : ''}>Your friendly neighbourhood developer</div>
                         </div>
                     </div>
                 </div>
@@ -95,19 +122,24 @@ const New = () => {
                 </div>
                 <div ref={workExperienceRef} className="section">
                     <h2>Work Experience</h2>
-                    <Tabs defaultValue="mts">
-                        <Tabs.List>
-                            <Tabs.Tab value="mts">
+                    <Tabs defaultValue="mts" className="work-experience-tabs" style={{ width: 'min(100%, 900px)' }}>
+                        <Tabs.List
+                            className="work-experience-tabs-list"
+                            grow={!stackWorkExperienceTabs}
+                            justify="center"
+                            style={workExperienceListStyle}
+                        >
+                            <Tabs.Tab value="mts" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Member of Technical Staff(Current)
                             </Tabs.Tab>
-                            <IconCircleChevronLeft stroke={2} />
-                            <Tabs.Tab value="se">
+                            {!stackWorkExperienceTabs && <IconCircleChevronLeft stroke={2} className="work-experience-divider" />}
+                            <Tabs.Tab value="se" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Software Engineer
                             </Tabs.Tab>
-                            <IconCircleChevronLeft stroke={2} />
-                            <Tabs.Tab value="intern">
+                            {!stackWorkExperienceTabs && <IconCircleChevronLeft stroke={2} className="work-experience-divider" />}
+                            <Tabs.Tab value="intern" className="work-experience-tab" style={workExperienceTabStyle}>
                                 <img src={oracleLogo} alt="Oracle" style={{ height: '20px' }} /> <br />
                                 Software Development Intern
                             </Tabs.Tab>
