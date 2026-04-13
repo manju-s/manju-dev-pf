@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import './New.css';
-import myPhoto from '../assets/my-photo.png';
-import myLogo from '../assets/logo-dark.png';
+import darkPhoto from '../assets/my-photo-dark.png';
+import lightPhoto from '../assets/my-photo-light.png';
+import darkLogo from '../assets/logo-dark.png';
+import lightLogo from '../assets/logo-light.png';
 import oracleLogo from '../assets/oracle-logo-small.png';
-import { IconSun, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
+import { IconSun, IconMoon, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
 import { Button } from '@mantine/core';
 import { Tabs } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 const New = () => {
+    const [isDarkMode, setIsDarkMode] = useState(true);
     const [greeting, setGreeting] = useState('Hey There!');
     const [animation, setAnimation] = useState('fade-in');
     const [startPageLoadAnimation, setStartPageLoadAnimation] = useState(false);
@@ -79,14 +82,14 @@ const New = () => {
     }, []);
 
     return (
-        <div className="main-body">
+        <div className={`main-body ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
             <div className='main-div'>
                 <div className="nav-container">
                     <button
                         onClick={() => handleScroll(homeRef)}
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
                     >
-                        <img src={myLogo} alt="My Logo" className='my-logo' />
+                        <img src={isDarkMode ? darkLogo : lightLogo} alt="My Logo" className='my-logo' />
                     </button>
                     <nav className="navigation">
                         <button className="nav-button" onClick={() => handleScroll(contactRef)}>Contact Me</button>
@@ -99,7 +102,7 @@ const New = () => {
                 </div>
                 <div ref={homeRef} className="child-div">
                     <div className={`image-text-overlay-container ${startPageLoadAnimation ? 'image-slide-in' : ''}`}>
-                        <img src={myPhoto} alt="My Photo" className='my-photo' />
+                        <img src={isDarkMode ? darkPhoto : lightPhoto} alt="My Photo" className='my-photo' />
                         <div className="overlay-text">
                             <div className={startPageLoadAnimation ? 'line-1-slide-in' : ''}>
                                 <span className={animation}>{greeting}</span>
@@ -145,7 +148,7 @@ const New = () => {
                             </Tabs.Tab>
                         </Tabs.List>
 
-                        {/* <Tabs.Panel value="mts">
+                        <Tabs.Panel value="mts">
                             Gallery tab content
                         </Tabs.Panel>
 
@@ -154,7 +157,7 @@ const New = () => {
                         </Tabs.Panel>
                         <Tabs.Panel value="intern">
                             I was selected as an intern from campus and did 6 months with Oracle Cerner (then Cerner). <br /> During this time i built an entire <br /> full stack application for storing and displaying media files which would be helpful <br />for knowledge transfer among associates.<br /> The UI was built using React and backend was built using Java and Jersey.
-                        </Tabs.Panel> */}
+                        </Tabs.Panel>
                     </Tabs>
                 </div>
 
@@ -173,8 +176,8 @@ const New = () => {
                 </div>
 
                 <div className='theme-toggle-container'>
-                    <Button variant='transparent'>
-                        <IconSun stroke={1} color='white' />
+                    <Button variant='transparent' onClick={() => setIsDarkMode((currentMode) => !currentMode)}>
+                        {isDarkMode ? <IconSun stroke={1} color='white' /> : <IconMoon stroke={1} color='black' />}
                     </Button>
                 </div>
             </div>
