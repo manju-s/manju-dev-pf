@@ -12,6 +12,7 @@ import { useMediaQuery } from '@mantine/hooks';
 
 const New = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [assetsReady, setAssetsReady] = useState(false);
     const [greeting, setGreeting] = useState('Hey There!');
     const [animation, setAnimation] = useState('fade-in');
     const [startPageLoadAnimation, setStartPageLoadAnimation] = useState(false);
@@ -53,16 +54,54 @@ const New = () => {
     };
 
     useEffect(() => {
-        setStartPageLoadAnimation(true);
+        let isMounted = true;
+
+        const preloadImage = (src) => new Promise((resolve) => {
+            const image = new Image();
+            image.onload = resolve;
+            image.onerror = resolve;
+            image.src = src;
+        });
+
+        const preloadAssets = async () => {
+            const fontReadyPromise = document.fonts?.ready ?? Promise.resolve();
+
+            await Promise.all([
+                preloadImage(darkPhoto),
+                preloadImage(lightPhoto),
+                preloadImage(darkLogo),
+                preloadImage(lightLogo),
+                preloadImage(oracleLogo),
+                fontReadyPromise,
+            ]);
+
+            if (isMounted) {
+                setAssetsReady(true);
+                setStartPageLoadAnimation(true);
+            }
+        };
+
+        preloadAssets();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!assetsReady) {
+            return undefined;
+        }
 
         const greetings = ['Hey There!', 'ನಮಸ್ಕಾರ!'];
         const durations = [5000, 1000]; // 5 seconds for Hello, 2 seconds for ನಮaskara
         let currentGreetingIndex = 0;
         let timeoutId;
+        let fadeTimeoutId;
 
         const transitionGreeting = () => {
             setAnimation('fade-out'); // Start fade-out
-            setTimeout(() => {
+            fadeTimeoutId = setTimeout(() => {
                 // After fade-out, change greeting and fade-in
                 currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
                 setGreeting(greetings[currentGreetingIndex]);
@@ -78,12 +117,27 @@ const New = () => {
         timeoutId = setTimeout(transitionGreeting, durations[currentGreetingIndex]);
 
 
-        return () => clearTimeout(timeoutId);
-    }, []);
+        return () => {
+            clearTimeout(timeoutId);
+            clearTimeout(fadeTimeoutId);
+        };
+    }, [assetsReady]);
 
     return (
-        <div className={`main-body ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-            <div className='main-div'>
+        <div className={`main-body ${isDarkMode ? 'dark-mode' : 'light-mode'} ${assetsReady ? 'assets-ready' : 'assets-loading'}`}>
+            {!assetsReady && (
+                <div className="page-loader" aria-live="polite" aria-busy="true">
+                    <div className="loader-orbit loader-orbit-outer" />
+                    <div className="loader-orbit loader-orbit-middle" />
+                    <div className="loader-orbit loader-orbit-inner" />
+                    <div className="loader-core">
+                        <div className="loader-title">Centering divs professionally.....</div>
+                        {/* <div className="loader-subtitle">Pulling pixels into position...</div> */}
+                    </div>
+                </div>
+            )}
+            {assetsReady && (
+                <div className='main-div'>
                 <div className="nav-container">
                     <button
                         onClick={() => handleScroll(homeRef)}
@@ -181,6 +235,7 @@ const New = () => {
                     </Button>
                 </div>
             </div>
+            )}
         </div>
     );
 };
