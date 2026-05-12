@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import InProgress from './components/InProgress';
-import New from './components/New';
+import LandingPage from './components/LandingPage';
 import PortfolioLandingPage from './components/PortfolioLandingPage';
 import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -14,9 +13,8 @@ function App() {
     <MantineProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<New />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/dev" element={<PortfolioLandingPage />} />
-          <Route path="/new" element={<InProgress />} /> 
         </Routes>
       </BrowserRouter>
     </MantineProvider>

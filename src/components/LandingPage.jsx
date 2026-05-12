@@ -1,21 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
-import './New.css';
+import './LandingPage.css';
 import darkPhoto from '../assets/my-photo-dark.png';
 import lightPhoto from '../assets/my-photo-light.png';
 import darkLogo from '../assets/logo-dark.png';
 import lightLogo from '../assets/logo-light.png';
 import oracleLogo from '../assets/oracle-logo-small.png';
 import { IconSun, IconMoon, IconBrandGithub, IconCircleChevronLeft, IconBrandLinkedin } from '@tabler/icons-react';
-import { Button } from '@mantine/core';
-import { Tabs } from '@mantine/core';
+import { Button, Tabs } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import ChatModal from './ChatModal';
 
-const New = () => {
+const LandingPage = () => {
     const [isDarkMode, setIsDarkMode] = useState(true);
     const [assetsReady, setAssetsReady] = useState(false);
     const [greeting, setGreeting] = useState('Hey There!');
     const [animation, setAnimation] = useState('fade-in');
     const [startPageLoadAnimation, setStartPageLoadAnimation] = useState(false);
+
     const stackWorkExperienceTabs = useMediaQuery('(max-width: 850px)');
     const workExperienceListStyle = stackWorkExperienceTabs
         ? {
@@ -46,6 +47,7 @@ const New = () => {
     const workExperienceRef = useRef(null);
     const contactRef = useRef(null);
     const homeRef = useRef(null);
+    const themeToggleRef = useRef(null);
 
     const handleScroll = (ref) => {
         if (ref.current) {
@@ -131,7 +133,7 @@ const New = () => {
                     <div className="loader-orbit loader-orbit-middle" />
                     <div className="loader-orbit loader-orbit-inner" />
                     <div className="loader-core">
-                        <div className="loader-title">Centering divs professionally.....</div>
+                        <div className="loader-title">Centering divs.....</div>
                         {/* <div className="loader-subtitle">Pulling pixels into position...</div> */}
                     </div>
                 </div>
@@ -202,7 +204,7 @@ const New = () => {
                             </Tabs.Tab>
                         </Tabs.List>
 
-                        <Tabs.Panel value="mts">
+                        {/* <Tabs.Panel value="mts">
                             Gallery tab content
                         </Tabs.Panel>
 
@@ -211,7 +213,7 @@ const New = () => {
                         </Tabs.Panel>
                         <Tabs.Panel value="intern">
                             I was selected as an intern from campus and did 6 months with Oracle Cerner (then Cerner). <br /> During this time i built an entire <br /> full stack application for storing and displaying media files which would be helpful <br />for knowledge transfer among associates.<br /> The UI was built using React and backend was built using Java and Jersey.
-                        </Tabs.Panel>
+                        </Tabs.Panel> */}
                     </Tabs>
                 </div>
 
@@ -229,15 +231,17 @@ const New = () => {
                     </div>
                 </div>
 
-                <div className='theme-toggle-container'>
+                <div ref={themeToggleRef} className='theme-toggle-container'>
                     <Button variant='transparent' onClick={() => setIsDarkMode((currentMode) => !currentMode)}>
                         {isDarkMode ? <IconSun stroke={1} color='white' /> : <IconMoon stroke={1} color='black' />}
                     </Button>
                 </div>
+
+                <ChatModal isDarkMode={isDarkMode} themeToggleRef={themeToggleRef} />
             </div>
             )}
         </div>
     );
 };
 
-export default New;
+export default LandingPage;

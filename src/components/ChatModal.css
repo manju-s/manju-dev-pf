@@ -1,0 +1,92 @@
+.floating-chat-prompt {
+    position: fixed;
+    z-index: 1001;
+}
+
+.floating-chat-label {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    max-width: 180px;
+    width: max-content;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: white;
+    background: rgba(24, 24, 27, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+}
+
+.floating-chat-label::after {
+    content: "";
+    position: absolute;
+    right: 18px;
+    bottom: -9px;
+    width: 18px;
+    height: 18px;
+    background: rgba(24, 24, 27, 0.88);
+    border-right: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    transform: rotate(45deg);
+}
+
+.floating-chat-button {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    padding: 0;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    touch-action: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+    user-select: none;
+}
+
+.floating-chat-unread-indicator {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #e03131;
+    border: 2px solid #1a1b1e;
+    box-shadow: 0 0 0 2px rgba(224, 49, 49, 0.25);
+}
+
+.floating-chat-button:active {
+    cursor: grabbing;
+}
+
+.main-body.light-mode .floating-chat-label {
+    color: black;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(15, 23, 42, 0.12);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+.main-body.light-mode .floating-chat-label::after {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+.main-body.light-mode .floating-chat-button {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(15, 23, 42, 0.12);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+}
+
+.main-body.light-mode .floating-chat-unread-indicator {
+    border-color: white;
+}
