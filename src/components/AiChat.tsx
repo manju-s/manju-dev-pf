@@ -67,7 +67,7 @@ const AiChat: React.FC<AiChatProps> = ({ isChatOpen, setIsChatOpen, isDarkMode }
                 throw new Error('Missing VITE_AI_CHAT_API_BASE_URL environment variable');
             }
 
-            const response = await fetch(`${AI_CHAT_API_BASE_URL}/api/ask`, {
+            const response = await fetch(`http://localhost:3000/api/ask`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 signal: abortControllerRef.current.signal,
@@ -75,6 +75,14 @@ const AiChat: React.FC<AiChatProps> = ({ isChatOpen, setIsChatOpen, isDarkMode }
                     query: inputText
                 }),
             });
+
+            if (response.status === 429) {
+                throw new Error('429');
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP Error: ${response.status}`);
+            }
 
             if (!response.body) throw new Error('No response body');
 
@@ -131,7 +139,11 @@ const AiChat: React.FC<AiChatProps> = ({ isChatOpen, setIsChatOpen, isDarkMode }
             console.error('Error communicating with backend:', error);
             setMessages((prev) => {
                 const updated = [...prev]
-                updated[updated.length - 1].text += "\nUh-oh, looks like there is an issue with Manju's server, no worries ill be back up soon!";
+                if (error.message === '429') {
+                    updated[updated.length - 1].text += "\nUh-oh looks like Manju's server is overloaded, try again after some time";
+                } else {
+                    updated[updated.length - 1].text += "\nUh-oh, looks like there is an issue with Manju's server, no worries I'll be back up soon!";
+                }
                 return updated;
             });
         } finally {
