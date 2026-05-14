@@ -67,7 +67,7 @@ const AiChat: React.FC<AiChatProps> = ({ isChatOpen, setIsChatOpen, isDarkMode }
                 throw new Error('Missing VITE_AI_CHAT_API_BASE_URL environment variable');
             }
 
-            const response = await fetch(`http://localhost:3000/api/ask`, {
+            const response = await fetch(`${AI_CHAT_API_BASE_URL}/api/ask`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 signal: abortControllerRef.current.signal,
